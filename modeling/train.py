@@ -1,67 +1,70 @@
 import tensorflow as tf
-from tensorflow.keras import layers, models 
+from tensorflow.keras import layers, models
 from pathlib import Path
 from dataclasses import dataclass
-import os 
+import os
 
-ROOT_DIR = Path(__file__).resolve().parent
-DATA_DIR = ROOT_DIR / 'data'
-MODEL_DIR = ROOT_DIR / 'modeling' / 'models'
+# Shared config and dataset helpers live here so notebooks can import directly from train.py.
+ROOT_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = ROOT_DIR / "data"
+MODEL_DIR = ROOT_DIR / "modeling" / "models"
 
-@dataclass(frozen = True)
+
+@dataclass(frozen=True)
 class ModelConfig:
-    name: str 
-    data_dir: Path 
-    model_dir: Path 
-    epochs: int = 50 
-    image_size: int = 256 
+    name: str
+    data_dir: Path
+    model_dir: Path
+    epochs: int = 50
+    image_size: int = 256
     batch_size: int = 32
-    rgb_channels: int = 3 
-    seed: int = 12 
+    rgb_channels: int = 3
+    seed: int = 12
     shuffle: bool = True
+
 
 CROP_CONFIGS = {
     "potato": ModelConfig(
-        name = "potato",
-        data_dir = DATA_DIR / 'potato',
-        model_dir = MODEL_DIR / 'potato',
+        name="potato",
+        data_dir=DATA_DIR / "potato",
+        model_dir=MODEL_DIR / "potato",
     ),
     "tomato": ModelConfig(
-        name = "tomato",
-        data_dir = DATA_DIR / 'tomato',
-        model_dir = MODEL_DIR / 'tomato',
+        name="tomato",
+        data_dir=DATA_DIR / "tomato",
+        model_dir=MODEL_DIR / "tomato",
     ),
     "pepper": ModelConfig(
-        name = "pepper",
-        data_dir = DATA_DIR / 'pepper',
-        model_dir = MODEL_DIR / 'pepper',
+        name="pepper",
+        data_dir=DATA_DIR / "pepper",
+        model_dir=MODEL_DIR / "pepper",
     ),
 }
 
+
 def load_dataset(model_config: ModelConfig) -> tf.data.Dataset:
-    dataset = tf.keras.preprocessing.image_dataset_from_directory(
-        model_config.data_dir, 
+    return tf.keras.preprocessing.image_dataset_from_directory(
+        model_config.data_dir,
         shuffle=model_config.shuffle,
         seed=model_config.seed,
-        image_size=(model_config.image_size, model_config.image_size), 
-        batch_size=model_config.batch_size
+        image_size=(model_config.image_size, model_config.image_size),
+        batch_size=model_config.batch_size,
     )
-    return dataset
 
-def get_dataset_partitions_tf(ds: tf.data.Dataset, 
-                              train_split: float=0.8, 
-                              val_split: float=0.1, 
-                              test_split: float=0.1, 
-                              shuffle: bool=True, 
-                              seed: int=12,
-                              shuffle_size:int=10000) -> tuple[tf.data.Dataset, tf.data.Dataset, tf.data.Dataset]:
 
-    # Fix: validate the requested split ratios before partitioning the dataset.
+def get_dataset_partitions_tf(
+    ds: tf.data.Dataset,
+    train_split: float = 0.8,
+    val_split: float = 0.1,
+    test_split: float = 0.1,
+    shuffle: bool = True,
+    seed: int = 12,
+    shuffle_size: int = 10000,
+) -> tuple[tf.data.Dataset, tf.data.Dataset, tf.data.Dataset]:
     if abs(train_split + val_split + test_split - 1.0) > 1e-6:
         raise ValueError("train_split, val_split, and test_split must sum to 1.0")
 
     ds_size = len(ds)
-
     if shuffle:
         ds = ds.shuffle(shuffle_size, seed=seed)
 
@@ -71,8 +74,8 @@ def get_dataset_partitions_tf(ds: tf.data.Dataset,
     train_ds = ds.take(train_size)
     validation_ds = ds.skip(train_size).take(val_size)
     test_ds = ds.skip(train_size + val_size)
-
     return train_ds, validation_ds, test_ds
+
 
 
 def optimization_and_augmentation(train_ds: tf.data.Dataset, 
