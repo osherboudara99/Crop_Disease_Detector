@@ -66,6 +66,7 @@ def get_dataset_partitions_tf(
 
     ds_size = len(ds)
     if shuffle:
+        # Keep the split order fixed so train/validation/test partitions stay stable.
         ds = ds.shuffle(
             shuffle_size,
             seed=seed,
