@@ -10,6 +10,7 @@ dependencies = [
     "tensorflow==2.10.*",
     "ipython>=8.0.0",
     "ipykernel>=6.0.0",
+    "scikit-learn>=1.7.2",
 ]
 
 [tool.uv]
