@@ -17,7 +17,7 @@ class ModelConfig:
     model_dir: Path
     epochs: int = 50
     image_size: int = 256
-    batch_size: int = 32
+    batch_size: int = 16
     rgb_channels: int = 3
     seed: int = 12
     shuffle: bool = True
@@ -88,7 +88,6 @@ def optimization_and_augmentation(train_ds: tf.data.Dataset,
         layers.RandomZoom(0.1),     
     ])
 
-    train_ds = train_ds.cache()
     train_ds = train_ds.shuffle(
         1000,
         seed=model_config.seed,
@@ -101,8 +100,8 @@ def optimization_and_augmentation(train_ds: tf.data.Dataset,
     train_ds = train_ds.prefetch(tf.data.AUTOTUNE)
 
     # Fix: do not shuffle validation/test so evaluation stays deterministic.
-    validation_ds = validation_ds.cache().prefetch(buffer_size=tf.data.AUTOTUNE)
-    test_ds = test_ds.cache().prefetch(buffer_size=tf.data.AUTOTUNE)
+    validation_ds = validation_ds.prefetch(buffer_size=tf.data.AUTOTUNE)
+    test_ds = test_ds.prefetch(buffer_size=tf.data.AUTOTUNE)
 
     return train_ds, validation_ds, test_ds
 
