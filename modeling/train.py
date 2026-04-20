@@ -85,8 +85,7 @@ def optimization_and_augmentation(train_ds: tf.data.Dataset,
     data_augmentation_pipeline = models.Sequential([
         layers.RandomFlip('horizontal_and_vertical'), 
         layers.RandomRotation(0.1),  
-        layers.RandomZoom(0.1),  
-        layers.RandomContrast(0.1)      
+        layers.RandomZoom(0.1),     
     ])
 
     train_ds = train_ds.cache()
@@ -128,7 +127,9 @@ def build_model(model_config: ModelConfig, class_names: list[str], verbose: bool
         layers.Conv2D(filters=64, kernel_size=(3,3), activation='relu'),
         layers.MaxPooling2D(pool_size=(2,2)),
         layers.Flatten(),
+        layers.Dropout(0.3),
         layers.Dense(128, activation='relu'),
+        layers.Dropout(0.4),
         layers.Dense(64, activation='relu'),
         layers.Dense(32, activation='relu'),
         layers.Dense(len(class_names), activation='softmax')
