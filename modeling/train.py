@@ -66,7 +66,12 @@ def get_dataset_partitions_tf(
 
     ds_size = len(ds)
     if shuffle:
-        ds = ds.shuffle(shuffle_size, seed=seed)
+        ds = ds.shuffle(
+            shuffle_size,
+            seed=seed,
+            reshuffle_each_iteration=False,
+        )
+
 
     train_size = int(ds_size * train_split)
     val_size = int(ds_size * val_split)
