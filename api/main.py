@@ -52,6 +52,7 @@ async def predict(
     plant: str,
     file: UploadFile = File(...)
 ) -> dict:
+    
     plant = plant.lower()
 
     if plant not in CLASSES:
@@ -59,18 +60,14 @@ async def predict(
             status_code=404,
             detail=f"Unknown plant '{plant}'. Use one of: {list(CLASSES.keys())}",
         )
+    
     image = read_file_as_image(await file.read()) 
-
-    # Expand dimensions to match the input shape of the model
     image_batch = np.expand_dims(image, axis=0)
 
     model = CLASSES[plant]["model"]
     classes = CLASSES[plant]["classes"]
 
-
-
     prediction = model.predict(image_batch)
-
     predicted_class = int(np.argmax(prediction[0]))
     predicted_confidence = float(np.max(prediction[0]))
     predicted_label = classes[predicted_class]
