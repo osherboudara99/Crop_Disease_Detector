@@ -43,8 +43,11 @@ CLASSES = {
 }
 
 @app.get("/health")
-async def health() -> str:
-    return "Hello, I am healthy!"
+async def health() -> dict:
+    return {
+        "status": "ok",
+        "message": "API is healthy and ready to receive requests."  
+    }
 
 
 @app.post("/predict")
