@@ -1,10 +1,12 @@
 import { useState } from 'react'
-// import CropSelector from './components/CropSelector'
+import CropSelector from './components/CropSelector'
 // import ImageDropzone from './components/ImageDropzone'
 // import PredictionResult from './components/PredictionResult'
 import { predictDisease } from './api'
 
 const App = () => {
+  const [crop, setCrop] = useState('');
+
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
       <header className="border-b border-slate-800 px-6 py-4">
@@ -20,6 +22,10 @@ const App = () => {
           </div>
         </div>
       </header>
+    
+    <main className="flex-1 flex flex-col items-center justify-start px-4 py-10">
+      <CropSelector value={crop} onChange={setCrop} />
+    </main>
     </div>
   )
 }
