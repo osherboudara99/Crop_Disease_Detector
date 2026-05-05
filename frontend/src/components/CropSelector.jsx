@@ -11,22 +11,23 @@ const CropSelector = ({value, onChange}) => {
                 Select Crop 
             </label>
             <select
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            className="
-            w-full px-4 py-3 rounded-xl
-            bg-slate-800 border border-slate-700
-            text-slate-100 text-base
-            focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent
-            cursor-pointer
-            transition-colors duration-150
-            ">
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className="
+                    w-full px-4 py-3 rounded-xl
+                    bg-slate-800 border border-slate-700
+                    text-slate-100 text-base
+                    focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent
+                    cursor-pointer
+                    transition-colors duration-150
+                "
+            >
                 <option value="">Choose a crop</option>
                 {CROPS.map(({ value, label, emoji }) => (
                     <option key={value} value={value}>
                         {emoji} {label}
                     </option>
-                    ))}
+                ))}
             </select>
         </div>
     )
