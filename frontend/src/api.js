@@ -1,4 +1,4 @@
-export const predictDisease = (plant, imageFile) => {
+export const predictDisease = async (plant, imageFile) => {
     const formData = new FormData();
     formData.append('file', imageFile);
     
