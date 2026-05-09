@@ -1,11 +1,19 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from api.utils import read_file_as_image
+from utils import read_file_as_image
 import tensorflow as tf
 import numpy as np
 from pathlib import Path
 
-app = FastAPI() 
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # add your deployed frontend URL here for production
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 
