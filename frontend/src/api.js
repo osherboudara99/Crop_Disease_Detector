@@ -1,25 +1,18 @@
-export const predictDisease = async (plant, imageFile) => {
-    const formData = new FormData();
-    formData.append('file', imageFile);
-    
-    try {
-        const res = await fetch(`/api/predict?plant=${plant}`, {
-            method: 'POST',
-            body: formData,
-        // Do NOT set Content-Type — browser handles it automatically with the boundary
-        });
+export async function predictDisease(plant, imageFile) {
+  const formData = new FormData()
+  formData.append('file', imageFile)
 
-        if(!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            throw new Error(err.detail ?? `Request failed with status ${res.status}`)
-        }
+  const res = await fetch(`/api/predict?plant=${plant}`, {
+    method: 'POST',
+    body: formData,
+    // Do NOT set Content-Type — browser sets it with the multipart boundary automatically
+  })
 
-        return res.json()
-    }
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.detail ?? `Request failed with status ${res.status}`)
+  }
 
-    catch (error) {
-
-        console.error(`Error calling model: ${error}`);
-    }
-
+  return res.json()
+  // Returns: { plant: "potato", prediction: "Early blight", confidence: 0.95 }
 }
