@@ -44,16 +44,51 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col">
-      <header className="border-b border-slate-800 px-6 py-4">
-        <div className="max-w-lg mx-auto flex items-center gap-3">
-          <span className="text-2xl">🌿</span>
-          <div>
+      <header className="border-b border-slate-800 px-4 py-4">
+        <div className="w-full max-w-lg mx-auto flex items-center justify-center gap-3 text-center">
+          <span className="text-2xl leading-none">🌿</span>
+          <div className="min-w-0">
             <h1 className="text-lg font-bold text-slate-100 leading-none">
-              Crop Disease Detector
+              crop disease detector
             </h1>
             <p className="text-slate-500 text-xs mt-0.5">
               AI-powered plant health analysis
             </p>
+            <div className="mt-1 flex items-center justify-center gap-3">
+              <span className="text-xs font-medium text-slate-500">
+                osher boudara
+              </span>
+              <a
+                href="https://github.com/osherboudara99"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Osher Boudara on GitHub"
+                className="text-slate-400 hover:text-emerald-300 transition-colors"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  className="h-4 w-4 fill-current"
+                >
+                  <path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.38 6.84 9.73.5.1.68-.22.68-.49v-1.91c-2.78.62-3.37-1.21-3.37-1.21-.45-1.19-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05A9.31 9.31 0 0 1 12 6.98c.85 0 1.7.12 2.5.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.94.68 1.9v2.81c0 .27.18.59.69.49A10.2 10.2 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z" />
+                </svg>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/osher-boudara-a612921b5/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Osher Boudara on LinkedIn"
+                className="text-slate-400 hover:text-sky-300 transition-colors"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  className="h-4 w-4 fill-current"
+                >
+                  <path d="M6.94 8.98H3.71v10.39h3.23V8.98ZM5.32 7.56a1.87 1.87 0 1 0 0-3.74 1.87 1.87 0 0 0 0 3.74Zm14.85 6.12c0-3.13-1.67-4.58-3.9-4.58-1.8 0-2.6.99-3.05 1.68v-1.8h-3.23c.04.97 0 10.39 0 10.39h3.23v-5.8c0-.31.02-.62.11-.84.23-.62.76-1.26 1.65-1.26 1.17 0 1.64.95 1.64 2.34v5.56h3.23l.32-5.69Z" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </header>
