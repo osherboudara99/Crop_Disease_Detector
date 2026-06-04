@@ -1,0 +1,7 @@
+.git
+.venv
+.uv-cache
+frontend/node_modules
+frontend/dist
+data
+modeling/exploration_training.ipynb

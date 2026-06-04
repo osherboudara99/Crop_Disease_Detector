@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from utils import read_file_as_image
+from .utils import read_file_as_image
 import tensorflow as tf
 import numpy as np
 from pathlib import Path
@@ -10,7 +10,11 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # add your deployed frontend URL here for production
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:4173",
+        "https://crop-disease-predictor.osherboudara.com",
+    ],
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
@@ -91,6 +95,6 @@ async def predict(
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
 
 
