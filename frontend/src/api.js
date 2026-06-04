@@ -1,8 +1,10 @@
+const API_URL = import.meta.env.VITE_API_URL ?? ''
+
 export async function predictDisease(plant, imageFile) {
   const formData = new FormData()
   formData.append('file', imageFile)
 
-  const res = await fetch(`/api/predict?plant=${plant}`, {
+  const res = await fetch(`${API_URL}/predict?plant=${plant}`, {
     method: 'POST',
     body: formData,
     // Do NOT set Content-Type — browser sets it with the multipart boundary automatically
