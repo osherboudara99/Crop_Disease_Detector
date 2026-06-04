@@ -12,7 +12,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://crop-disease-predictor.osherboudara.com",
+        "http://localhost:4173",
+        "https://crop.osherboudara.com",
     ],
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
