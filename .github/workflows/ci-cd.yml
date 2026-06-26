@@ -75,6 +75,32 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Check GCP deployment configuration
+        env:
+          GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+          GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+        run: |
+          missing=()
+
+          if [ -z "${GCP_PROJECT_ID}" ]; then
+            missing+=("GCP_PROJECT_ID")
+          fi
+
+          if [ -z "${GCP_WORKLOAD_IDENTITY_PROVIDER}" ]; then
+            missing+=("GCP_WORKLOAD_IDENTITY_PROVIDER")
+          fi
+
+          if [ -z "${GCP_SERVICE_ACCOUNT}" ]; then
+            missing+=("GCP_SERVICE_ACCOUNT")
+          fi
+
+          if [ "${#missing[@]}" -gt 0 ]; then
+            printf 'Missing required GitHub Actions secrets: %s\n' "${missing[*]}"
+            printf 'Add them under Settings -> Secrets and variables -> Actions before API deploys can run.\n'
+            exit 1
+          fi
+
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
