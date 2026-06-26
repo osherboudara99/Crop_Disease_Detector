@@ -481,6 +481,9 @@ On every push to `main` after those checks pass, it:
 - submits `cloudbuild.yaml` to Cloud Build
 - deploys the new API image to Cloud Run
 
+The workflow suppresses live Cloud Build log streaming in GitHub Actions. Build logs
+remain available from the Cloud Build URL printed by the job.
+
 Cloudflare Pages deploys the frontend separately from the connected `main` branch
 using the settings in Step 14.
 
@@ -493,9 +496,17 @@ Add these repository secrets in GitHub under
 | `GCP_WORKLOAD_IDENTITY_PROVIDER` | The full Workload Identity Provider resource name |
 | `GCP_SERVICE_ACCOUNT` | The deploy service account email |
 
-The deploy service account needs permission to submit Cloud Build jobs and deploy
-Cloud Run services. It also needs access to the Artifact Registry repository used by
-the image and the GCS bucket that stores the models.
+The deploy service account needs these project roles:
+
+- `Cloud Build Editor`
+- `Cloud Run Admin`
+- `Artifact Registry Writer`
+- `Storage Admin`
+- `Service Account User`
+- `Service Usage Consumer`
+
+It also needs `Workload Identity User` on the service account itself for the GitHub
+Workload Identity principal.
 
 ---
 
