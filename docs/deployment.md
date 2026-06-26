@@ -465,6 +465,40 @@ redeploys automatically.
 
 ---
 
+## GitHub Actions CI/CD
+
+This repository includes `.github/workflows/ci-cd.yml`. GitHub Actions validates
+the frontend, but Cloudflare Pages remains responsible for deploying it.
+
+On pull requests into `main`, it:
+
+- installs, lints, and builds the Vite frontend
+- checks Python syntax for `api/` and `modeling/`
+
+On every push to `main` after those checks pass, it:
+
+- authenticates to Google Cloud using GitHub OIDC
+- submits `cloudbuild.yaml` to Cloud Build
+- deploys the new API image to Cloud Run
+
+Cloudflare Pages deploys the frontend separately from the connected `main` branch
+using the settings in Step 14.
+
+Add these repository secrets in GitHub under
+**Settings -> Secrets and variables -> Actions**:
+
+| Secret | Value |
+|---|---|
+| `GCP_PROJECT_ID` | Your Google Cloud project ID |
+| `GCP_WORKLOAD_IDENTITY_PROVIDER` | The full Workload Identity Provider resource name |
+| `GCP_SERVICE_ACCOUNT` | The deploy service account email |
+
+The deploy service account needs permission to submit Cloud Build jobs and deploy
+Cloud Run services. It also needs access to the Artifact Registry repository used by
+the image and the GCS bucket that stores the models.
+
+---
+
 ## Cost Reference
 
 | Service | Free tier | Estimated cost |
