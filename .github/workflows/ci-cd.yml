@@ -113,13 +113,37 @@ jobs:
       - name: Build and push API image
         run: |
           IMAGE="${REGION}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${ARTIFACT_REPOSITORY}/${SERVICE}:${GITHUB_SHA}"
-          gcloud builds submit \
+          BUILD_ID="$(gcloud builds submit \
             --project="${{ secrets.GCP_PROJECT_ID }}" \
             --region="${REGION}" \
             --config=cloudbuild.yaml \
-            --suppress-logs \
+            --async \
+            --format="value(id)" \
             --substitutions="_IMAGE=${IMAGE}" \
-            .
+            .)"
+
+          printf 'Cloud Build submitted: %s\n' "${BUILD_ID}"
+
+          while true; do
+            STATUS="$(gcloud builds describe "${BUILD_ID}" \
+              --project="${{ secrets.GCP_PROJECT_ID }}" \
+              --region="${REGION}" \
+              --format="value(status)")"
+
+            printf 'Cloud Build status: %s\n' "${STATUS}"
+
+            case "${STATUS}" in
+              SUCCESS)
+                break
+                ;;
+              FAILURE|INTERNAL_ERROR|TIMEOUT|CANCELLED|EXPIRED)
+                printf 'Cloud Build failed with status: %s\n' "${STATUS}"
+                exit 1
+                ;;
+            esac
+
+            sleep 10
+          done
 
       - name: Deploy API
         run: |

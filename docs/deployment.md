@@ -481,8 +481,9 @@ On every push to `main` after those checks pass, it:
 - submits `cloudbuild.yaml` to Cloud Build
 - deploys the new API image to Cloud Run
 
-The workflow suppresses live Cloud Build log streaming in GitHub Actions. Build logs
-remain available from the Cloud Build URL printed by the job.
+The workflow submits Cloud Build asynchronously, then polls build status from GitHub
+Actions. This avoids requiring GitHub Actions to stream Cloud Build logs. Full logs
+remain available in the Google Cloud Console.
 
 Cloudflare Pages deploys the frontend separately from the connected `main` branch
 using the settings in Step 14.
