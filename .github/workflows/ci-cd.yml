@@ -117,6 +117,7 @@ jobs:
             --project="${{ secrets.GCP_PROJECT_ID }}" \
             --region="${REGION}" \
             --config=cloudbuild.yaml \
+            --suppress-logs \
             --substitutions="_IMAGE=${IMAGE}" \
             .
 
