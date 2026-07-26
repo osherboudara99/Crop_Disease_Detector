@@ -378,7 +378,7 @@ Cloudflare Pages is free, builds from GitHub, and redeploys automatically on eve
 1. Go to https://dash.cloudflare.com and sign in
 2. In the left sidebar click **Workers & Pages**
 3. Click **Create** → select the **Pages** tab (not Workers)
-4. Click **Connect to Git** → select the `osherboudara99/Crop_Disease_Detector` repository
+4. Click **Connect to Git** → select the `osherboudara99/crop-disease-detector` repository
 5. On the build settings screen fill in:
    ```
    Project name:          crop-disease-predictor
